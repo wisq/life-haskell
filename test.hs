@@ -60,7 +60,7 @@ tests = test [
     ]
   ,
   "calculates living neighbour count around cell" ~:
-    2 @=? living_count_around (3,3) (coords [(2,3), (3,3), (3,4), (5,5)])
+    2 @=? count_living_around (coords [(2,3), (3,3), (3,4), (5,5)]) (3,3)
   ,
 
   "calculates next board for blinker" ~:

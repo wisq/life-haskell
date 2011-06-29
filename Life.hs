@@ -6,7 +6,7 @@ module Life (
   becomes_alive,
 
   neighbour_coords,
-  living_count_around,
+  count_living_around,
   dead_cells_around,
   next_board
 ) where
@@ -29,8 +29,8 @@ neighbour_coords (x,y) = fromList [
   (x-1,y+1), (x,y+1), (x+1,y+1)
   ]
 
-living_count_around :: Coord -> CoordSet -> Int
-living_count_around coord = size . intersection (neighbour_coords coord)
+count_living_around :: CoordSet -> Coord -> Int
+count_living_around living = size . intersection living . neighbour_coords
 
 dead_cells_around :: CoordSet -> CoordSet
 dead_cells_around living = around living `difference` living
@@ -41,4 +41,4 @@ next_board living = steady_life `union` new_life
   where
     steady_life = Set.filter (stays_alive   . count) living
     new_life    = Set.filter (becomes_alive . count) $ dead_cells_around living
-    count coord = living_count_around coord living
+    count       = count_living_around living
