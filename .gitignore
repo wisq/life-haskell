@@ -1,0 +1,4 @@
+*.o
+*.hi
+glider-gun
+.*-stamp

@@ -1,4 +1,16 @@
+GHC_OPTS=-O2 -threaded -rtsopts -Wall -Werror
+
 all: test
 
+clean:
+	rm -rf glider-gun *.hi *.o
+
 test:
-	echo main | ghci test.hs | grep -A9999 'ghci>'
+	echo main | ghci test.hs > /dev/null
+
+.test-stamp: Life.hs test.hs
+	$(MAKE) test
+	touch $@
+
+glider-gun: glider-gun.hs Life.hs .test-stamp
+	ghc $(GHC_OPTS) --make $<
