@@ -14,11 +14,14 @@ start = Set.fromList [
     (13,8)
   ]
 
+board_stats :: CoordSet -> CoordSet -> String
 board_stats old new = (count old) ++ " => " ++ (count new)
   where count = show . Set.size
 
+main :: IO ()
 main = board_loop 0 start
 
+board_loop :: Int -> CoordSet -> IO ()
 board_loop n board = do
   putStrLn $ "Iteration " ++ (show n) ++ ": " ++ (board_stats board next)
   board_loop (n+1) next
