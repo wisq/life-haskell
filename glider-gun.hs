@@ -1,5 +1,6 @@
 import Life
 import qualified Data.Set as Set
+import System.Environment (getArgs)
 
 start :: CoordSet
 start = Set.fromList [
@@ -14,15 +15,21 @@ start = Set.fromList [
     (13,8)
   ]
 
-board_stats :: CoordSet -> CoordSet -> String
-board_stats old new = (count old) ++ " => " ++ (count new)
-  where count = show . Set.size
+count :: CoordSet -> String
+count = show . Set.size
 
 main :: IO ()
-main = board_loop 0 start
+main = do
+  args <- getArgs
+  board_loop 1 (read $ head $ args ++ ["-1"]) start
 
-board_loop :: Int -> CoordSet -> IO ()
-board_loop n board = do
-  putStrLn $ "Iteration " ++ (show n) ++ ": " ++ (board_stats board next)
-  board_loop (n+1) next
-  where next = next_board board
+board_loop :: Int -> Int -> CoordSet -> IO ()
+board_loop _ 0 board = do
+    putStrLn $ "Finished: " ++ (count board) ++ " living cells."
+
+board_loop n remain board = do
+    putStrLn $ "Iteration " ++ (show n) ++ ": " ++ stats
+    board_loop (n+1) (remain-1) next
+  where
+    next  = next_board board
+    stats = (count board) ++ " => " ++ (count next)
