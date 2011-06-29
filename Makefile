@@ -1,4 +1,4 @@
-GHC_OPTS=-O2 -threaded -rtsopts -Wall -Werror
+GHC_OPTS=-O2 -threaded -rtsopts -Wall
 
 all: test
 
