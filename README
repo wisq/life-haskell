@@ -1,0 +1,4 @@
+Basic "Game of Life" code in Haskell+HUnit using Sets.
+Much more efficient than my similar Ruby version.
+
+No arbitrary data input or graphical output yet.
