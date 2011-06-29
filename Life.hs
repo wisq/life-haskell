@@ -16,8 +16,10 @@ import Data.Set as Set
 type Coord = (Int,Int)
 type CoordSet = Set Coord
 
+stays_alive :: Int -> Bool
 stays_alive n_count = n_count >= 2 && n_count <= 3
 
+becomes_alive :: Int -> Bool
 becomes_alive = (==) 3
 
 neighbour_coords :: Coord -> CoordSet
