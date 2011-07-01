@@ -1,13 +1,9 @@
 module Main where
 
-import Data.Word
-import Data.Array.IArray
-
 import Control.Applicative
 import Control.Monad
 
 import Graphics.UI.SDL
-import Graphics.UI.SDL.Image
 
 import Life
 import qualified Data.Set as Set
