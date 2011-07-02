@@ -30,7 +30,7 @@ main = withInit [InitEverything] $ do -- withInit calls quit for us.
     fg_color  <- (mapRGB . surfaceGetPixelFormat) screen 0xff 0xff 0xff
     clip_rect <- Just <$> (getClipRect screen)
 
-    board_loop start screen clip_rect bg_color fg_color
+    board_loop screen clip_rect bg_color fg_color start
 
  where
     screenWidth  = 1280
@@ -38,15 +38,23 @@ main = withInit [InitEverything] $ do -- withInit calls quit for us.
     screenBpp    = 32
 
 
-board_loop board screen clip_rect bg_color fg_color = do
-    fillRect screen clip_rect bg_color
-    mapM draw_cell (Set.toList board)
-
-    Graphics.UI.SDL.flip screen
-
-    quit <- while_events
-    unless quit (board_loop (next_board board) screen clip_rect bg_color fg_color)
+board_loop screen clip_rect bg_color fg_color = board_loop' 1
   where
+    board_loop' iter board = do
+	fillRect screen clip_rect bg_color
+	mapM draw_cell (Set.toList board)
+
+	Graphics.UI.SDL.flip screen
+
+        let next = next_board board
+        let caption = "Iteration " ++ (show iter) ++ ": " ++ (show (Set.size board)) ++ " => " ++ (show (Set.size next))
+        if iter `mod` 10 == 0
+	    then setCaption caption []
+            else return ()
+
+	quit <- while_events
+	unless quit $ board_loop' (iter+1) next
+
     draw_cell coord = fillRect screen (cell_rect coord) fg_color
 
     cell_rect (x,y) = Just $ Rect { rectX=x*size, rectY=y*size, rectW=size, rectH=size }
