@@ -1,4 +1,4 @@
-GHC_OPTS=-O2 -threaded -rtsopts -Wall
+GHC_OPTS=-O2 -threaded -rtsopts -Wall -fno-warn-unused-do-bind
 
 all: test
 
